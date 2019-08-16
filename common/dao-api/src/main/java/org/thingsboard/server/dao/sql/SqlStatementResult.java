@@ -15,18 +15,19 @@
  */
 package org.thingsboard.server.dao.sql;
 
-import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.common.util.concurrent.MoreExecutors;
+import lombok.Data;
+import org.thingsboard.server.common.data.id.TenantId;
+import org.thingsboard.server.dao.util.AsyncTask;
 
-import javax.annotation.PreDestroy;
-import java.util.concurrent.Executors;
+import java.util.concurrent.Callable;
 
-public abstract class JpaAbstractDaoListeningExecutorService {
+/**
+ * Created by ashvayka on 24.10.18.
+ */
+@Data
+public class SqlStatementResult<T> implements AsyncTask {
 
+    private final TenantId tenantId;
+    private final T value;
 
-
-    @PreDestroy
-    void onDestroy() {
-        service.shutdown();
-    }
 }

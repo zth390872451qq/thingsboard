@@ -13,20 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.thingsboard.server.dao.sql;
+package org.thingsboard.server.dao.util;
 
-import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.common.util.concurrent.MoreExecutors;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 
-import javax.annotation.PreDestroy;
-import java.util.concurrent.Executors;
-
-public abstract class JpaAbstractDaoListeningExecutorService {
-
-
-
-    @PreDestroy
-    void onDestroy() {
-        service.shutdown();
-    }
+@ConditionalOnExpression("'${database.ts.type}'=='sql' || '${database.entities.type}'=='sql'")
+public @interface SqlAnyDao {
 }
