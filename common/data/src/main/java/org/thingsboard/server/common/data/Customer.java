@@ -23,7 +23,7 @@ import org.thingsboard.server.common.data.id.TenantId;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-public class Customer extends ContactBased<CustomerId> implements HasTenantId {
+public class Customer extends ContactBased<CustomerId> {
     
     private static final long serialVersionUID = -1599722990298929275L;
     

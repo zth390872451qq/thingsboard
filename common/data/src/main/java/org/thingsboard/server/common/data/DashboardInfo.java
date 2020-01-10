@@ -22,7 +22,7 @@ import org.thingsboard.server.common.data.id.TenantId;
 
 import java.util.*;
 
-public class DashboardInfo extends SearchTextBased<DashboardId> implements HasName, HasTenantId {
+public class DashboardInfo extends SearchTextBased<DashboardId> {
 
     private TenantId tenantId;
     private String title;

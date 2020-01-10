@@ -19,10 +19,10 @@ import lombok.EqualsAndHashCode;
 import org.thingsboard.server.common.data.id.UUIDBased;
 
 @EqualsAndHashCode(callSuper = true)
-public abstract class ContactBased<I extends UUIDBased> extends SearchTextBasedWithAdditionalInfo<I> implements HasName {
-    
+public abstract class ContactBased<I extends UUIDBased> extends SearchTextBasedWithAdditionalInfo<I> {
+
     private static final long serialVersionUID = 5047448057830660988L;
-    
+
     protected String country;
     protected String state;
     protected String city;
@@ -31,7 +31,7 @@ public abstract class ContactBased<I extends UUIDBased> extends SearchTextBasedW
     protected String zip;
     protected String phone;
     protected String email;
-    
+
     public ContactBased() {
         super();
     }
@@ -39,7 +39,7 @@ public abstract class ContactBased<I extends UUIDBased> extends SearchTextBasedW
     public ContactBased(I id) {
         super(id);
     }
-    
+
     public ContactBased(ContactBased<I> contact) {
         super(contact);
         this.country = contact.getCountry();

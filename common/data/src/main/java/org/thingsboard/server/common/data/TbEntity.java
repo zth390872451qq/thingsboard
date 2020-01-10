@@ -15,27 +15,36 @@
  */
 package org.thingsboard.server.common.data;
 
+import org.thingsboard.server.common.data.id.CustomerId;
+import org.thingsboard.server.common.data.id.EntityId;
+import org.thingsboard.server.common.data.id.TenantId;
 import org.thingsboard.server.common.data.id.UUIDBased;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+public abstract class TbEntity<I extends UUIDBased> extends BaseData<I> implements HasName, HasTenantId, HasCustomerId {
 
-public abstract class SearchTextBased<I extends UUIDBased> extends TbEntity<I> {
-
-    private static final long serialVersionUID = -539812997348227609L;
-    
-    public SearchTextBased() {
+    public TbEntity() {
         super();
     }
 
-    public SearchTextBased(I id) {
+    public TbEntity(I id) {
         super(id);
     }
-    
-    public SearchTextBased(SearchTextBased<I> searchTextBased) {
-        super(searchTextBased);
-    }
-    
-    @JsonIgnore
-    public abstract String getSearchText(); 
 
+    public TbEntity(TbEntity<I> data) {
+        super(data);
+    }
+
+    public String getLabel() {
+        return this.getName();
+    }
+
+    @Override
+    public CustomerId getCustomerId() {
+        return new CustomerId(EntityId.NULL_UUID);
+    }
+
+    @Override
+    public TenantId getTenantId() {
+        return new TenantId(EntityId.NULL_UUID);
+    }
 }

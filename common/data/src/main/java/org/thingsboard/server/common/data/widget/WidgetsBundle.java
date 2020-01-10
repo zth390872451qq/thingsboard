@@ -15,14 +15,13 @@
  */
 package org.thingsboard.server.common.data.widget;
 
-import org.thingsboard.server.common.data.HasTenantId;
 import org.thingsboard.server.common.data.SearchTextBased;
 import org.thingsboard.server.common.data.id.TenantId;
 import org.thingsboard.server.common.data.id.WidgetsBundleId;
 
 import java.util.Arrays;
 
-public class WidgetsBundle extends SearchTextBased<WidgetsBundleId> implements HasTenantId {
+public class WidgetsBundle extends SearchTextBased<WidgetsBundleId> {
 
     private static final long serialVersionUID = -7627368878362410489L;
 
@@ -77,6 +76,11 @@ public class WidgetsBundle extends SearchTextBased<WidgetsBundleId> implements H
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    @Override
+    public String getName() {
+        return this.getTitle();
     }
 
     @Override

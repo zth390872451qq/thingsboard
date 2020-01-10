@@ -23,7 +23,7 @@ import org.thingsboard.server.common.data.id.CustomerId;
 import org.thingsboard.server.common.data.id.TenantId;
 
 @EqualsAndHashCode(callSuper = true)
-public class Asset extends SearchTextBasedWithAdditionalInfo<AssetId> implements HasName, HasTenantId, HasCustomerId {
+public class Asset extends SearchTextBasedWithAdditionalInfo<AssetId> {
 
     private static final long serialVersionUID = 2807343040519543363L;
 

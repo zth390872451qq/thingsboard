@@ -28,7 +28,7 @@ import org.thingsboard.server.common.data.id.RuleNodeId;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Slf4j
-public class RuleNode extends SearchTextBasedWithAdditionalInfo<RuleNodeId> implements HasName {
+public class RuleNode extends SearchTextBasedWithAdditionalInfo<RuleNodeId> {
 
     private static final long serialVersionUID = -5656679015121235465L;
 

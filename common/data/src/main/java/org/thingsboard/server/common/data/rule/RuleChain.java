@@ -30,7 +30,7 @@ import org.thingsboard.server.common.data.id.TenantId;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Slf4j
-public class RuleChain extends SearchTextBasedWithAdditionalInfo<RuleChainId> implements HasName, HasTenantId {
+public class RuleChain extends SearchTextBasedWithAdditionalInfo<RuleChainId> {
 
     private static final long serialVersionUID = -5656679015121935465L;
 
