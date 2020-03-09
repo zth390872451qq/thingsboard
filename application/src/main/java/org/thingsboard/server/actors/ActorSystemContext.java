@@ -1,5 +1,5 @@
 /**
- * Copyright © 2016-2019 The Thingsboard Authors
+ * Copyright © 2016-2020 The Thingsboard Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.thingsboard.rule.engine.api.MailService;
 import org.thingsboard.rule.engine.api.RuleChainTransactionService;
@@ -90,6 +91,7 @@ import java.io.StringWriter;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @Component
@@ -286,6 +288,23 @@ public class ActorSystemContext {
     @Value("${actors.statistics.persist_frequency}")
     @Getter
     private long statisticsPersistFrequency;
+
+    @Getter
+    private final AtomicInteger jsInvokeRequestsCount = new AtomicInteger(0);
+    @Getter
+    private final AtomicInteger jsInvokeResponsesCount = new AtomicInteger(0);
+    @Getter
+    private final AtomicInteger jsInvokeFailuresCount = new AtomicInteger(0);
+
+    @Scheduled(fixedDelayString = "${actors.statistics.js_print_interval_ms}")
+    public void printStats() {
+        if (statisticsEnabled) {
+            if (jsInvokeRequestsCount.get() > 0 || jsInvokeResponsesCount.get() > 0 || jsInvokeFailuresCount.get() > 0) {
+                log.info("Rule Engine JS Invoke Stats: requests [{}] responses [{}] failures [{}]",
+                        jsInvokeRequestsCount.getAndSet(0), jsInvokeResponsesCount.getAndSet(0), jsInvokeFailuresCount.getAndSet(0));
+            }
+        }
+    }
 
     @Value("${actors.tenant.create_components_on_init}")
     @Getter

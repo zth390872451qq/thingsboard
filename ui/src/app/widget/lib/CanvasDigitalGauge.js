@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016-2019 The Thingsboard Authors
+ * Copyright © 2016-2020 The Thingsboard Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -104,26 +104,32 @@ export default class CanvasDigitalGauge extends canvasGauges.BaseGauge {
         }
 
         var colorsCount = options.levelColors.length;
-        var inc = colorsCount > 1 ? (1 / (colorsCount - 1)) : 1;
+        const inc = colorsCount > 1 ? (1 / (colorsCount - 1)) : 1;
+        var isColorProperty = angular.isString(options.levelColors[0]);
+
         options.colorsRange = [];
         if (options.neonGlowBrightness) {
             options.neonColorsRange = [];
         }
-        for (var i = 0; i < options.levelColors.length; i++) {
-            var percentage = inc * i;
-            var tColor = tinycolor(options.levelColors[i]);
-            options.colorsRange[i] = {
-                pct: percentage,
-                color: tColor.toRgb(),
-                rgbString: tColor.toRgbString()
-            };
-            if (options.neonGlowBrightness) {
-                tColor = tinycolor(options.levelColors[i]).brighten(options.neonGlowBrightness);
-                options.neonColorsRange[i] = {
+
+        for (let i = 0; i < options.levelColors.length; i++) {
+            const levelColor = options.levelColors[i];
+            if (levelColor !== null) {
+                let percentage = isColorProperty ? inc * i : CanvasDigitalGauge.normalizeValue(levelColor.value, options.minValue, options.maxValue);
+                let tColor = tinycolor(isColorProperty ? levelColor : levelColor.color);
+                options.colorsRange.push({
                     pct: percentage,
                     color: tColor.toRgb(),
                     rgbString: tColor.toRgbString()
-                };
+                });
+                if (options.neonGlowBrightness) {
+                    tColor = tinycolor(isColorProperty ? levelColor : levelColor.color).brighten(options.neonGlowBrightness);
+                    options.neonColorsRange.push({
+                        pct: percentage,
+                        color: tColor.toRgb(),
+                        rgbString: tColor.toRgbString()
+                    });
+                }
             }
         }
 
@@ -135,6 +141,17 @@ export default class CanvasDigitalGauge extends canvasGauges.BaseGauge {
         }
 
         return canvasGauges.BaseGauge.configure(options);
+    }
+
+    static normalizeValue (value, min, max) {
+        let normalValue = (value - min) / (max - min);
+        if (normalValue <= 0) {
+            return 0;
+        }
+        if (normalValue >= 1) {
+            return 1;
+        }
+        return normalValue;
     }
 
     destroy() {
